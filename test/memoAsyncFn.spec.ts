@@ -103,7 +103,7 @@ describe('memoAsyncFn', () => {
       await delay(10)
       if (odd % 2) {
         passTimes++
-        return 'pass'
+        return { code: 0 }
       } else {
         throwTimes++
         throw new Error('not an odd')
@@ -114,19 +114,30 @@ describe('memoAsyncFn', () => {
 
     const calls1 = await Promise.all([
       fn(1), fn(1),
-      fn(2).catch(() => null), fn(2).catch(() => null)
+      fn(2).catch(err => err), fn(2).catch(err => err)
     ]);
 
-    assert.deepStrictEqual(calls1, ['pass', 'pass', null, null]);
+    assert.deepStrictEqual(calls1.slice(0, 2), [{ code: 0 }, { code: 0 }]);
+    assert.strictEqual(calls1[0], calls1[1], 'two successful requests got same result')
+
+    assert(calls1[2] instanceof Error)
+    assert.strictEqual(calls1[2], calls1[3], 'two failed requests got same Error')
+
     assert.strictEqual(passTimes, 1)
     assert.strictEqual(throwTimes, 1)
 
     const calls2 = await Promise.all([
       fn(1), fn(1),
-      fn(2).catch(() => null), fn(2).catch(() => null)
+      fn(2).catch(err => err), fn(2).catch(err => err)
     ]);
 
-    assert.deepStrictEqual(calls2, ['pass', 'pass', null, null]);
+    assert.deepStrictEqual(calls2.slice(0, 2), [{ code: 0 }, { code: 0 }]);
+    assert.strictEqual(calls2[0], calls2[1], 'two successful requests got same result')
+
+    assert(calls2[2] instanceof Error)
+    assert.strictEqual(calls2[2], calls2[3], 'two failed requests got same Error')
+
+    assert.notStrictEqual(calls1[2], calls2[3], 'Error shall not be cached')
     assert.strictEqual(passTimes, 1)
     assert.strictEqual(throwTimes, 2)
   });

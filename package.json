@@ -4,27 +4,35 @@
   "description": "combine async / promise calls and cache result in memory with LRU",
   "main": "index.js",
   "module": "lib/index.js",
-  "umd:main": "dist/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc -m es6 && rollup -c",
     "test": "nyc mocha"
   },
-  "keywords": [],
+  "keywords": [
+    "memorize",
+    "async",
+    "promise",
+    "util",
+    "merge",
+    "combine",
+    "request"
+  ],
   "author": "lyonbot",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lyonbot/memo-async-fn.git"
+  },
   "license": "MIT",
   "dependencies": {
     "lru-cache": "^5.1.1"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^11.0.2",
-    "@rollup/plugin-node-resolve": "^7.1.1",
     "@types/lru-cache": "^5.1.0",
     "@types/mocha": "^7.0.1",
     "mocha": "^7.1.0",
     "nyc": "^15.0.0",
     "rollup": "^1.32.0",
-    "rollup-plugin-terser": "^5.2.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   },
