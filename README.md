@@ -27,5 +27,29 @@ const user5 = await getUserInfo(12)   // get cached result
 
 ## API
 
-- `memoAsyncFn(fn, opts)`
+this package provides:
+
+- `memoAsyncFn(fn, opts)` return an enhanced async function
+
+  - `opts`: optional. see `MemoOptions` in <./src/memoAsyncFn.ts>
+
+- `combined(opts)` class method decorator
+
+  > Note: every instance has its own LRU cache in memory.
+  > if you have many instances, consider using same cache and setting `opts.cache` and `opts.genKey`
+  >
+  > @example
+  >
+  > ```js
+  > class MyTest {
+  >   @combined()
+  >   async fetchInfo(userId) {
+  >     // some expensive requests
+  >   }
+  > }
+  >
+  > const tester = new MyTest()
+  > // now tester.fetchInfo is enhanced by memoAsyncFn
+  > ```
+
   - `opts`: optional. see `MemoOptions` in <./src/memoAsyncFn.ts>
