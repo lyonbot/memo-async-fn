@@ -1,5 +1,5 @@
 {
-  "name": "memo-async-fn",
+  "name": "memo-async",
   "version": "0.1.0",
   "description": "combine async / promise calls and cache result in memory with LRU",
   "main": "index.js",

@@ -5,7 +5,7 @@ export default [
     output: {
       file: 'dist/index.js',
       format: 'umd',
-      name: 'memoAsyncFn',
+      name: 'memoAsync',
     }
   },
 ]

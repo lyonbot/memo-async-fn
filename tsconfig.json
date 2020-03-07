@@ -6,7 +6,7 @@
     "rootDir": "src",
     "declaration": true,
     "declarationDir": "types",
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": false,
     "experimentalDecorators": true,
     "target": "ES6"
   },

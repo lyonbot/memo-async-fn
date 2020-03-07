@@ -14,7 +14,7 @@ const getDefaultLRUFromInst = (inst: any, fnName: string | symbol, opts: MemoOpt
   return LRU
 }
 
-function combined(opts: MemoOptions = {}): MethodDecorator {
+function memoAsyncDecorator(opts: MemoOptions = {}): MethodDecorator {
   return function (target, key, descriptor: PropertyDescriptor) {
     const oldFn = descriptor.value
 
@@ -25,4 +25,4 @@ function combined(opts: MemoOptions = {}): MethodDecorator {
   }
 }
 
-export default combined
+export default memoAsyncDecorator

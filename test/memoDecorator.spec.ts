@@ -1,16 +1,16 @@
 import * as assert from 'assert';
-import combined from '../src/memoDecorator';
+import memoAsync from '../src';
 
 class Dog {
   barkTimes = 0
   walkSteps = [] as string[]
 
-  @combined()
+  @memoAsync()
   async bark() {
     return ++this.barkTimes
   }
 
-  @combined({ batchSize: 3 })
+  @memoAsync({ batchSize: 3 })
   async walk(step: string) {
     this.walkSteps.push(step)
   }

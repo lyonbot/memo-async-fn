@@ -1,4 +1,4 @@
-import LRUCache from 'lru-cache'
+import * as LRUCache from 'lru-cache'
 import makeDefaultLRU from './makeDefaultLRU';
 
 export interface LRUData {
@@ -12,7 +12,7 @@ export interface LRUData {
 export type LRUType = LRUCache<string, LRUData>
 
 export interface MemoOptions<ARGS extends any[] = any[], RESULT = any> {
-  /** use an existing lru-cache instance. by default, memoAsyncFn will make one */
+  /** use an existing lru-cache instance. by default, memoAsync will make one */
   cache?: LRUType | ((...args: ARGS) => LRUType)
 
   /** set the cache capacity. works when `cache` is not given. default: 1000. */
@@ -31,7 +31,7 @@ export interface MemoOptions<ARGS extends any[] = any[], RESULT = any> {
   batchSize?: number
 }
 
-export default function memoAsyncFn<
+export default function memoAsync<
   ARGS extends any[],
   RESULT
 >(

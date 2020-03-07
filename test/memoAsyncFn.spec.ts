@@ -1,12 +1,12 @@
 import * as assert from 'assert';
-import memoAsyncFn from '../src/memoAsyncFn';
+import memoAsync from '../src';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-describe('memoAsyncFn', () => {
+describe('memoAsync', () => {
   it('merge requests', async () => {
     const cnt = { a: 0, b: 0, c: 0 };
-    const fn = memoAsyncFn(async (key) => ++cnt[key]);
+    const fn = memoAsync(async (key) => ++cnt[key]);
     const calls = await Promise.all([
       fn('a'), fn('a'), fn('a'), fn('a'),
       fn('b'), fn('b'), fn('b'), fn('b'),
@@ -19,7 +19,7 @@ describe('memoAsyncFn', () => {
 
   it('skip cache if genKey returns empty', async () => {
     const cnt = { a: 0, b: 0, c: 0 };
-    const fn = memoAsyncFn(
+    const fn = memoAsync(
       async (id) => ++cnt[id],
       {
         genKey: (id) => id == 'c' ? '' : id   // no cache for "c"
@@ -38,7 +38,7 @@ describe('memoAsyncFn', () => {
   it('onHit', async () => {
     const cnt = { a: 0, b: 0, c: 0 };
     const hits = { a: 0, b: 0, c: 0 };
-    const fn = memoAsyncFn(
+    const fn = memoAsync(
       async (id) => ++cnt[id],
       {
         onHit(_1, _2, [id]) { hits[id]++ }
@@ -57,7 +57,7 @@ describe('memoAsyncFn', () => {
 
   it('batchSize', async () => {
     const cnt = { a: 0, b: 0, c: 0 };
-    const fn = memoAsyncFn(async (key) => ++cnt[key], { batchSize: 2 });
+    const fn = memoAsync(async (key) => ++cnt[key], { batchSize: 2 });
     const calls = await Promise.all([
       fn('a'), fn('a'), fn('a'), fn('a'),
       fn('b'), fn('b'), fn('b'), fn('b'),
@@ -70,7 +70,7 @@ describe('memoAsyncFn', () => {
 
   it('duration', async () => {
     const cnt = { a: 0, b: 0, c: 0 };
-    const fn = memoAsyncFn(
+    const fn = memoAsync(
       async (key) => {
         await delay(70)
         return ++cnt[key]
@@ -99,7 +99,7 @@ describe('memoAsyncFn', () => {
     let throwTimes = 0
     let passTimes = 0
 
-    const fn = memoAsyncFn(async (odd) => {
+    const fn = memoAsync(async (odd) => {
       await delay(10)
       if (odd % 2) {
         passTimes++
