@@ -14,13 +14,16 @@ const getUserInfo = memoAsync(   // <- magic
   }
 )
 
+// parallel requests
 
-const user1 = await getUserInfo(12)   // send request
-const user2 = await getUserInfo(12)   // (cached) re-use 1st request
-const user3 = await getUserInfo(9)    // send request
-const user4 = await getUserInfo(12)   // (cached) re-use 1st request
+const infos = await Promise.all([
+  getUserInfo(12),   // send request
+  getUserInfo(12),   // (cached) re-use 1st request
+  getUserInfo(9),    // send request
+  getUserInfo(12),   // (cached) re-use 1st request
+])
 
-// in a short time...
+// then request again
 
 const user5 = await getUserInfo(12)   // get cached result,
                                       // or send request if last request failed
